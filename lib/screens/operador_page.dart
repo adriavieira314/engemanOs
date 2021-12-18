@@ -1,3 +1,4 @@
+import 'package:engemanos/models/cadastro_os.dart';
 import 'package:engemanos/models/teclado.dart';
 import 'package:flutter/material.dart';
 
@@ -11,6 +12,7 @@ class PaginaPrincipalPage extends StatefulWidget {
 class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
   final TextEditingController userInput = TextEditingController();
   final TextEditingController senhaInput = TextEditingController();
+  String os = '';
 
   late int inputType = 1;
 
@@ -30,7 +32,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
       body: MediaQuery.of(context).orientation == Orientation.portrait
           ? Column(
               children: [
-                const ListaUsuario(),
+                listaUsuario(),
                 loginUsuario(
                   context,
                   itemWidthPortrait,
@@ -43,7 +45,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                const ListaUsuario(),
+                listaUsuario(),
                 Padding(
                   padding: const EdgeInsets.only(right: 15.0, top: 0.0),
                   child: loginUsuario(
@@ -117,6 +119,26 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                 })
                               : senhaInput.text += teclado[index].label;
                     }
+
+                    // como nao estou colocando os valores do input pelo teclado
+                    // do dispositivo, tive que fazer de outro jeito
+                    // eu passo para uma variavel 'os' o valor inserido no
+                    // userInput a cada click do teclado customizado
+                    // essa variavel 'os' é usada para filtrar a lista de usuarios
+                    // la embaixo
+                    if (userInput.text.isNotEmpty) {
+                      for (var i = 0; i < cadastroOs.length; i++) {
+                        setState(() {
+                          os = userInput.text;
+                        });
+                      }
+                    }
+                    // condição para limpar a varivel 'os' e limpar a lista
+                    if (index == 9) {
+                      setState(() {
+                        os = '';
+                      });
+                    }
                   },
                   child: Card(
                     color: index == 9 //se for tecla Limpar
@@ -159,7 +181,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
             });
           },
           autofocus: true,
-          // showCursor: true,
           readOnly: true,
           controller: textController,
           style: const TextStyle(fontSize: 24.0),
@@ -192,15 +213,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
       ),
     );
   }
-}
 
-class ListaUsuario extends StatelessWidget {
-  const ListaUsuario({
-    Key? key,
-  }) : super(key: key);
-
-  @override
-  Widget build(BuildContext context) {
+  Expanded listaUsuario() {
     return Expanded(
       child: Padding(
         padding: const EdgeInsets.all(15.0),
@@ -213,56 +227,65 @@ class ListaUsuario extends StatelessWidget {
             ],
           ),
           child: ListView.builder(
-            itemCount: 1,
+            itemCount: cadastroOs.length,
             itemBuilder: (BuildContext context, int index) {
-              return Padding(
-                padding: const EdgeInsets.only(bottom: 15.0),
-                child: SizedBox(
-                  height: 130.0,
-                  child: Card(
-                    shape: RoundedRectangleBorder(
-                      side:
-                          const BorderSide(color: Colors.blueGrey, width: 1.0),
-                      borderRadius: BorderRadius.circular(4.0),
+              if (os.isEmpty) {
+                return Container();
+                // verifico se no array cadastroOs possui o valor passado para
+                // a variavel 'os'
+              } else if (cadastroOs[index].os.contains(os)) {
+                return usuarioCard(index);
+              }
+              return Container();
+            },
+          ),
+        ),
+      ),
+    );
+  }
+
+  Padding usuarioCard(int index) {
+    return Padding(
+      padding: const EdgeInsets.only(bottom: 15.0),
+      child: SizedBox(
+        height: 130.0,
+        child: Card(
+          shape: RoundedRectangleBorder(
+            side: const BorderSide(color: Colors.blueGrey, width: 1.0),
+            borderRadius: BorderRadius.circular(4.0),
+          ),
+          child: Column(
+            mainAxisAlignment: MainAxisAlignment.center,
+            children: [
+              ListTile(
+                title: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      'Nome: ${cadastroOs[index].operador}',
+                      style: const TextStyle(fontSize: 25.0),
                     ),
-                    child: Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      children: [
-                        ListTile(
-                          title: Column(
-                            crossAxisAlignment: CrossAxisAlignment.start,
-                            children: [
-                              const Text(
-                                'Nome: Roberto',
-                                style: TextStyle(fontSize: 25.0),
-                              ),
-                              Text(
-                                'Turno: ${index + 1} Turno',
-                                style: const TextStyle(fontSize: 25.0),
-                              ),
-                            ],
-                          ),
-                          trailing: ElevatedButton(
-                            onPressed: () {},
-                            child: const Text(
-                              'Pausar',
-                              style: TextStyle(fontSize: 25.0),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.orangeAccent,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              elevation: 5,
-                              minimumSize: const Size(180, 0),
-                            ),
-                          ),
-                        ),
-                      ],
+                    Text(
+                      'Turno: ${cadastroOs[index].turno} Turno',
+                      style: const TextStyle(fontSize: 25.0),
                     ),
+                  ],
+                ),
+                trailing: ElevatedButton(
+                  onPressed: () {},
+                  child: const Text(
+                    'Pausar',
+                    style: TextStyle(fontSize: 25.0),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    primary: Colors.orangeAccent,
+                    padding: const EdgeInsets.symmetric(vertical: 15.0),
+                    elevation: 5,
+                    minimumSize: const Size(180, 0),
                   ),
                 ),
-              );
-            },
+              ),
+            ],
           ),
         ),
       ),
