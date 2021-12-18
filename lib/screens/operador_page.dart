@@ -401,7 +401,14 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                   spacing: 30,
                   children: [
                     ElevatedButton(
-                      onPressed: () {},
+                      onPressed: () {
+                        setState(() {
+                          cadastroOs.removeAt(index);
+                          osInput.text = '';
+                          matriculaInput.text = '';
+                          existeIsTrue = false;
+                        });
+                      },
                       child: const Text(
                         'Pausar',
                         style: TextStyle(fontSize: 25.0),
@@ -415,7 +422,14 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                     ),
                     cadastroOs.length == 2
                         ? ElevatedButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              setState(() {
+                                cadastroOs.removeAt(index);
+                                osInput.text = '';
+                                matriculaInput.text = '';
+                                existeIsTrue = false;
+                              });
+                            },
                             child: const Text(
                               'Finalizar',
                               style: TextStyle(fontSize: 25.0),
@@ -438,8 +452,4 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
       ),
     );
   }
-}
-
-void update(String os, String matricula) {
-  print('insere function');
 }
