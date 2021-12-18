@@ -274,9 +274,9 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                 ),
                 trailing: ElevatedButton(
                   onPressed: () {},
-                  child: const Text(
-                    'Pausar',
-                    style: TextStyle(fontSize: 25.0),
+                  child: Text(
+                    cadastroOs.length == 1 ? 'Finalizar' : 'Pausar',
+                    style: const TextStyle(fontSize: 25.0),
                   ),
                   style: ElevatedButton.styleFrom(
                     primary: Colors.orangeAccent,
