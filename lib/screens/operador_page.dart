@@ -13,7 +13,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
   final TextEditingController userInput = TextEditingController();
   final TextEditingController senhaInput = TextEditingController();
   String osString = '';
-
+  String matriculaString = '';
   late int inputType = 1;
 
   @override
@@ -127,18 +127,35 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                     // userInput a cada click do teclado customizado
                     // essa variavel 'os' é usada para filtrar a lista de usuarios
                     // la embaixo
-                    if (userInput.text.isNotEmpty) {
-                      for (var i = 0; i < cadastroOs.length; i++) {
+                    if (inputType == 1) {
+                      if (osInput.text.isNotEmpty) {
+                        for (var i = 0; i < cadastroOs.length; i++) {
+                          setState(() {
+                            osString = osInput.text;
+                          });
+                        }
+                      }
+                      // condição para limpar a varivel 'os' e limpar a lista
+                      if (index == 9) {
                         setState(() {
-                          osString = userInput.text;
+                          osString = '';
                         });
                       }
-                    }
-                    // condição para limpar a varivel 'os' e limpar a lista
-                    if (index == 9) {
-                      setState(() {
-                        osString = '';
-                      });
+                      //input Type == 2
+                    } else {
+                      if (matriculaInput.text.isNotEmpty) {
+                        for (var i = 0; i < cadastroOs.length; i++) {
+                          setState(() {
+                            matriculaString = matriculaInput.text;
+                          });
+                        }
+                      }
+                      // condição para limpar a varivel 'os' e limpar a lista
+                      if (index == 9) {
+                        setState(() {
+                          matriculaString = '';
+                        });
+                      }
                     }
                   },
                   child: Card(
@@ -234,7 +251,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                 return Container();
                 // verifico se no array cadastroOs possui o valor passado para
                 // a variavel 'os'
-              } else if (cadastroOs[index].os.contains(osString)) {
+              } else if (cadastroOs[index]['os'] == osString &&
+                  cadastroOs[index]['matricula'] == matriculaString) {
                 return usuarioCard(index);
               }
               return Container();
