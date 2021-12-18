@@ -132,9 +132,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                                     matriculaString) ==
                                             false) {
                                           cadastra = true;
-                                        } else {
-                                          print('existe');
-                                          existeIsTrue = true;
                                         }
                                       }
 
@@ -142,7 +139,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                       if (cadastra) {
                                         cadastroOs.add({
                                           'os': '1234',
-                                          'matricula': matriculaInput.text,
+                                          'matricula':
+                                              'Teste ${cadastroOs.length + 1}',
                                           'operador': matriculaInput.text,
                                           'turno': '1',
                                         });
@@ -174,9 +172,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                                     matriculaString) ==
                                             false) {
                                           cadastra = true;
-                                        } else {
-                                          print('existe');
-                                          existeIsTrue = true;
                                         }
                                       }
 
@@ -185,7 +180,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                         cadastroOs.add({
                                           'os': '1234',
                                           'matricula': matriculaInput.text,
-                                          'operador': matriculaInput.text,
+                                          'operador':
+                                              'Teste ${cadastroOs.length + 1}',
                                           'turno': '1',
                                         });
                                         print(cadastroOs);
