@@ -349,32 +349,31 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
     );
   }
 
-  Expanded listaUsuario() {
-    return Expanded(
-      child: Padding(
-        padding: const EdgeInsets.all(15.0),
-        child: Container(
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(5),
-            color: Colors.white,
-            boxShadow: const [
-              BoxShadow(color: Colors.grey, spreadRadius: 1),
-            ],
-          ),
-          child: ListView.builder(
-            itemCount: cadastroOs.length,
-            itemBuilder: (BuildContext context, int index) {
-              if (osString.isEmpty || matriculaString.isEmpty) {
-                return Container();
-                // verifico se no array cadastroOs possui o valor passado para
-                // a variavel 'os'
-              } else if (cadastroOs[index]['os'] == osString &&
-                  cadastroOs[index]['matricula'] == matriculaString) {
-                return usuarioCard(index);
-              }
+  Padding listaUsuario() {
+    return Padding(
+      padding: const EdgeInsets.all(15.0),
+      child: Container(
+        height: 130.0,
+        decoration: BoxDecoration(
+          borderRadius: BorderRadius.circular(5),
+          color: Colors.white,
+          boxShadow: const [
+            BoxShadow(color: Colors.grey, spreadRadius: 1),
+          ],
+        ),
+        child: ListView.builder(
+          itemCount: cadastroOs.length,
+          itemBuilder: (BuildContext context, int index) {
+            if (osString.isEmpty || matriculaString.isEmpty) {
               return Container();
-            },
-          ),
+              // verifico se no array cadastroOs possui o valor passado para
+              // a variavel 'os'
+            } else if (cadastroOs[index]['os'] == osString &&
+                cadastroOs[index]['matricula'] == matriculaString) {
+              return usuarioCard(index);
+            }
+            return Container();
+          },
         ),
       ),
     );
