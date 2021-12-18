@@ -94,139 +94,171 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
               ),
             ],
           ),
-          SizedBox(
-            width: 500,
-            height: MediaQuery.of(context).orientation == Orientation.portrait
-                ? 700
-                : 450,
-            child: GridView.builder(
-              shrinkWrap: true,
-              gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-                crossAxisCount: 3,
-                childAspectRatio:
-                    MediaQuery.of(context).orientation == Orientation.portrait
-                        ? (itemWidthPortrait / itemHeightPortrait)
-                        : (itemWidth / itemHeight),
-              ),
-              itemCount: teclado.length,
-              itemBuilder: (BuildContext context, int index) {
-                return InkWell(
-                  onTap: () {
-                    if (inputType == 1) {
-                      index == 9 //se for tecla Limpar
-                          ? osInput.text = ''
-                          : index == 11 //se for tecla Entrar
-                              ? setState(() {
-                                  bool osExiste = false;
-                                  bool matriculaNaoExiste = false;
-                                  // o botao 'iniciar' some porem a função
-                                  // continua funcionando, esse IF previne isso de acontecer
-                                  if (!existeIsTrue) {
-                                    print('osInput');
-                                    if (osInput.text.isNotEmpty &&
-                                        matriculaInput.text.isNotEmpty) {
-                                      //iterando a array para verificar se existe o valor setado pelo usuario
-                                      for (var i = 0;
-                                          i < cadastroOs.length;
-                                          i++) {
-                                        if (cadastroOs[i]['os'] == osString) {
-                                          osExiste = true;
-                                          print('osExiste');
-                                        } else {
-                                          print('os nao existe');
-                                        }
-
-                                        if ((cadastroOs[i]['matricula'] ==
-                                                matriculaString) ==
-                                            false) {
-                                          matriculaNaoExiste = false;
-                                          print('matriculaNaoExiste');
-                                        }
-                                      }
-
-                                      // novo valor é cadastrado se 'cadastra' for verdadeiro
-                                      if (osExiste &&
-                                          matriculaNaoExiste == false) {
-                                        cadastroOs.add({
-                                          'os': '1234',
-                                          'matricula': matriculaInput.text,
-                                          'operador':
-                                              'Teste ${cadastroOs.length + 1}',
-                                          'turno': '1',
-                                        });
-                                        print(cadastroOs);
-                                      }
-                                    }
-                                  }
-                                })
-                              : osInput.text += teclado[index]
-                                  .label; //se for tecla número, concatena
-                    } else {
-                      index == 9 //se for tecla Limpar
-                          ? matriculaInput.text = ''
-                          : index == 11 //se for tecla Entrar
-                              ? setState(() {
-                                  // o botao 'iniciar' some porem a função
-                                  // continua funcionando, esse IF previne isso de acontecer
-                                  if (!existeIsTrue) {
+          Padding(
+            padding: const EdgeInsets.all(15.0),
+            child: SizedBox(
+              width: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? MediaQuery.of(context).size.width
+                  : 500,
+              height: MediaQuery.of(context).orientation == Orientation.portrait
+                  ? 700
+                  : 450,
+              child: GridView.builder(
+                shrinkWrap: true,
+                gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                  crossAxisCount: 3,
+                  childAspectRatio:
+                      MediaQuery.of(context).orientation == Orientation.portrait
+                          ? (itemWidthPortrait / itemHeightPortrait)
+                          : (itemWidth / itemHeight),
+                ),
+                itemCount: teclado.length,
+                itemBuilder: (BuildContext context, int index) {
+                  return InkWell(
+                    onTap: () {
+                      if (inputType == 1) {
+                        index == 9 //se for tecla Limpar
+                            ? osInput.text = ''
+                            : index == 11 //se for tecla Entrar
+                                ? setState(() {
                                     bool osExiste = false;
                                     bool matriculaNaoExiste = false;
-                                    print('matriculaInput');
-                                    if (osInput.text.isNotEmpty &&
-                                        matriculaInput.text.isNotEmpty) {
-                                      //iterando a array para verificar se existe o valor setado pelo usuario
-                                      for (var i = 0;
-                                          i < cadastroOs.length;
-                                          i++) {
-                                        if (cadastroOs[i]['os'] == osString) {
-                                          osExiste = true;
-                                          print('osExiste');
-                                        } else {
-                                          print('os nao existe');
+                                    // o botao 'iniciar' some porem a função
+                                    // continua funcionando, esse IF previne isso de acontecer
+                                    if (!existeIsTrue) {
+                                      print('osInput');
+                                      if (osInput.text.isNotEmpty &&
+                                          matriculaInput.text.isNotEmpty) {
+                                        //iterando a array para verificar se existe o valor setado pelo usuario
+                                        for (var i = 0;
+                                            i < cadastroOs.length;
+                                            i++) {
+                                          if (cadastroOs[i]['os'] == osString) {
+                                            osExiste = true;
+                                            print('osExiste');
+                                          } else {
+                                            print('os nao existe');
+                                          }
+
+                                          if ((cadastroOs[i]['matricula'] ==
+                                                  matriculaString) ==
+                                              false) {
+                                            matriculaNaoExiste = false;
+                                            print('matriculaNaoExiste');
+                                          }
                                         }
 
-                                        if ((cadastroOs[i]['matricula'] ==
-                                                matriculaString) ==
-                                            false) {
-                                          matriculaNaoExiste = false;
-                                          print('matriculaNaoExiste');
+                                        // novo valor é cadastrado se 'cadastra' for verdadeiro
+                                        if (osExiste &&
+                                            matriculaNaoExiste == false) {
+                                          cadastroOs.add({
+                                            'os': '1234',
+                                            'matricula': matriculaInput.text,
+                                            'operador':
+                                                'Teste ${cadastroOs.length + 1}',
+                                            'turno': '1',
+                                          });
+                                          print(cadastroOs);
                                         }
-                                      }
-
-                                      // novo valor é cadastrado se 'cadastra' for verdadeiro
-                                      if (osExiste &&
-                                          matriculaNaoExiste == false) {
-                                        cadastroOs.add({
-                                          'os': '1234',
-                                          'matricula': matriculaInput.text,
-                                          'operador':
-                                              'Teste ${cadastroOs.length + 1}',
-                                          'turno': '1',
-                                        });
-                                        print(cadastroOs);
                                       }
                                     }
-                                  }
-                                })
-                              : matriculaInput.text += teclado[index]
-                                  .label; //se for tecla número, concatena
-                    }
+                                  })
+                                : osInput.text += teclado[index]
+                                    .label; //se for tecla número, concatena
+                      } else {
+                        index == 9 //se for tecla Limpar
+                            ? matriculaInput.text = ''
+                            : index == 11 //se for tecla Entrar
+                                ? setState(() {
+                                    // o botao 'iniciar' some porem a função
+                                    // continua funcionando, esse IF previne isso de acontecer
+                                    if (!existeIsTrue) {
+                                      bool osExiste = false;
+                                      bool matriculaNaoExiste = false;
+                                      print('matriculaInput');
+                                      if (osInput.text.isNotEmpty &&
+                                          matriculaInput.text.isNotEmpty) {
+                                        //iterando a array para verificar se existe o valor setado pelo usuario
+                                        for (var i = 0;
+                                            i < cadastroOs.length;
+                                            i++) {
+                                          if (cadastroOs[i]['os'] == osString) {
+                                            osExiste = true;
+                                            print('osExiste');
+                                          } else {
+                                            print('os nao existe');
+                                          }
 
-                    // !condiçao para filtrar lista
-                    // como nao estou colocando os valores do input pelo teclado
-                    // do dispositivo, tive que fazer de outro jeito
-                    // eu passo para uma variavel 'os' o valor inserido no
-                    // userInput a cada click do teclado customizado
-                    // essa variavel 'os' é usada para filtrar a lista de usuarios
-                    // la embaixo
-                    if (inputType == 1) {
-                      if (osInput.text.isNotEmpty) {
-                        setState(() {
-                          osString = osInput.text;
-                        });
+                                          if ((cadastroOs[i]['matricula'] ==
+                                                  matriculaString) ==
+                                              false) {
+                                            matriculaNaoExiste = false;
+                                            print('matriculaNaoExiste');
+                                          }
+                                        }
 
-                        //condição para sumir o botao de iniciar se ja existir usuario
+                                        // novo valor é cadastrado se 'cadastra' for verdadeiro
+                                        if (osExiste &&
+                                            matriculaNaoExiste == false) {
+                                          cadastroOs.add({
+                                            'os': '1234',
+                                            'matricula': matriculaInput.text,
+                                            'operador':
+                                                'Teste ${cadastroOs.length + 1}',
+                                            'turno': '1',
+                                          });
+                                          print(cadastroOs);
+                                        }
+                                      }
+                                    }
+                                  })
+                                : matriculaInput.text += teclado[index]
+                                    .label; //se for tecla número, concatena
+                      }
+
+                      // !condiçao para filtrar lista
+                      // como nao estou colocando os valores do input pelo teclado
+                      // do dispositivo, tive que fazer de outro jeito
+                      // eu passo para uma variavel 'os' o valor inserido no
+                      // userInput a cada click do teclado customizado
+                      // essa variavel 'os' é usada para filtrar a lista de usuarios
+                      // la embaixo
+                      if (inputType == 1) {
+                        if (osInput.text.isNotEmpty) {
+                          setState(() {
+                            osString = osInput.text;
+                          });
+
+                          //condição para sumir o botao de iniciar se ja existir usuario
+                          if (matriculaInput.text.isNotEmpty) {
+                            for (var i = 0; i < cadastroOs.length; i++) {
+                              if (cadastroOs[i]['os'] == osString &&
+                                  cadastroOs[i]['matricula'] ==
+                                      matriculaString) {
+                                setState(() {
+                                  existeIsTrue = true;
+                                  print('naoExiste');
+                                  print(existeIsTrue);
+                                });
+                              }
+                            }
+                          }
+                        }
+                        // condição para limpar a varivel 'os' e limpar a lista
+                        if (index == 9) {
+                          setState(() {
+                            osString = '';
+                            existeIsTrue = false;
+                          });
+                        }
+                        //input Type == 2
+                      } else {
                         if (matriculaInput.text.isNotEmpty) {
+                          setState(() {
+                            matriculaString = matriculaInput.text;
+                          });
+
+                          //condição para sumir o botao de iniciar se ja existir usuario
                           for (var i = 0; i < cadastroOs.length; i++) {
                             if (cadastroOs[i]['os'] == osString &&
                                 cadastroOs[i]['matricula'] == matriculaString) {
@@ -238,66 +270,40 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                             }
                           }
                         }
-                      }
-                      // condição para limpar a varivel 'os' e limpar a lista
-                      if (index == 9) {
-                        setState(() {
-                          osString = '';
-                          existeIsTrue = false;
-                        });
-                      }
-                      //input Type == 2
-                    } else {
-                      if (matriculaInput.text.isNotEmpty) {
-                        setState(() {
-                          matriculaString = matriculaInput.text;
-                        });
-
-                        //condição para sumir o botao de iniciar se ja existir usuario
-                        for (var i = 0; i < cadastroOs.length; i++) {
-                          if (cadastroOs[i]['os'] == osString &&
-                              cadastroOs[i]['matricula'] == matriculaString) {
-                            setState(() {
-                              existeIsTrue = true;
-                              print('naoExiste');
-                              print(existeIsTrue);
-                            });
-                          }
+                        // condição para limpar a varivel 'matriculaString' e limpar a lista
+                        if (index == 9) {
+                          setState(() {
+                            matriculaString = '';
+                            existeIsTrue = false;
+                          });
                         }
                       }
-                      // condição para limpar a varivel 'matriculaString' e limpar a lista
-                      if (index == 9) {
-                        setState(() {
-                          matriculaString = '';
-                          existeIsTrue = false;
-                        });
-                      }
-                    }
-                  },
-                  child: (existeIsTrue && index == 11)
-                      ? null
-                      : Card(
-                          color: index == 9 //se for tecla Limpar
-                              ? const Color(0xFFcfe2ff)
-                              : index == 11 //se for tecla Entrar
-                                  ? Colors.greenAccent
-                                  : Colors.white,
-                          shape: RoundedRectangleBorder(
-                            side: const BorderSide(
-                                color: Colors.blueGrey, width: 2.0),
-                            borderRadius: BorderRadius.circular(4.0),
-                          ),
-                          child: Center(
-                            child: Text(
-                              teclado[index].label,
-                              style: const TextStyle(
-                                fontSize: 40.0,
+                    },
+                    child: (existeIsTrue && index == 11)
+                        ? null
+                        : Card(
+                            color: index == 9 //se for tecla Limpar
+                                ? const Color(0xFFcfe2ff)
+                                : index == 11 //se for tecla Entrar
+                                    ? Colors.greenAccent
+                                    : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              side: const BorderSide(
+                                  color: Colors.blueGrey, width: 2.0),
+                              borderRadius: BorderRadius.circular(4.0),
+                            ),
+                            child: Center(
+                              child: Text(
+                                teclado[index].label,
+                                style: const TextStyle(
+                                  fontSize: 80.0,
+                                ),
                               ),
                             ),
                           ),
-                        ),
-                );
-              },
+                  );
+                },
+              ),
             ),
           )
         ],
