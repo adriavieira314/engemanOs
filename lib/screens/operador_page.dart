@@ -116,16 +116,30 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                           ? osInput.text = ''
                           : index == 11 //se for tecla Entrar
                               ? setState(() {
-                                  print('osInput');
-                                  if (osInput.text.isNotEmpty &&
-                                      matriculaInput.text.isNotEmpty) {
-                                    for (var i = 0;
-                                        i < cadastroOs.length;
-                                        i++) {
-                                      if ((cadastroOs[i]['os'] == osString &&
-                                              cadastroOs[i]['matricula'] ==
-                                                  matriculaString) ==
-                                          false) {
+                                  bool cadastra = false;
+                                  // o botao 'iniciar' some porem a função
+                                  // continua funcionando, esse IF previne isso de acontecer
+                                  if (!existeIsTrue) {
+                                    print('osInput');
+                                    if (osInput.text.isNotEmpty &&
+                                        matriculaInput.text.isNotEmpty) {
+                                      //iterando a array para verificar se existe o valor setado pelo usuario
+                                      for (var i = 0;
+                                          i < cadastroOs.length;
+                                          i++) {
+                                        if ((cadastroOs[i]['os'] == osString &&
+                                                cadastroOs[i]['matricula'] ==
+                                                    matriculaString) ==
+                                            false) {
+                                          cadastra = true;
+                                        } else {
+                                          print('existe');
+                                          existeIsTrue = true;
+                                        }
+                                      }
+
+                                      // novo valor é cadastrado se 'cadastra' for verdadeiro
+                                      if (cadastra) {
                                         cadastroOs.add({
                                           'os': '1234',
                                           'matricula': matriculaInput.text,
@@ -133,8 +147,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                           'turno': '1',
                                         });
                                         print(cadastroOs);
-                                      } else {
-                                        print('existe');
                                       }
                                     }
                                   }
@@ -146,28 +158,37 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                           ? matriculaInput.text = ''
                           : index == 11 //se for tecla Entrar
                               ? setState(() {
-                                  print('matriculaInput');
-                                  if (osInput.text.isNotEmpty &&
-                                      matriculaInput.text.isNotEmpty) {
-                                    for (var i = 0;
-                                        i < cadastroOs.length;
-                                        i++) {
-                                      if ((cadastroOs[i]['os'] == osString &&
-                                              cadastroOs[i]['matricula'] ==
-                                                  matriculaString) ==
-                                          false) {
+                                  // o botao 'iniciar' some porem a função
+                                  // continua funcionando, esse IF previne isso de acontecer
+                                  if (!existeIsTrue) {
+                                    bool cadastra = false;
+                                    print('matriculaInput');
+                                    if (osInput.text.isNotEmpty &&
+                                        matriculaInput.text.isNotEmpty) {
+                                      //iterando a array para verificar se existe o valor setado pelo usuario
+                                      for (var i = 0;
+                                          i < cadastroOs.length;
+                                          i++) {
+                                        if ((cadastroOs[i]['os'] == osString &&
+                                                cadastroOs[i]['matricula'] ==
+                                                    matriculaString) ==
+                                            false) {
+                                          cadastra = true;
+                                        } else {
+                                          print('existe');
+                                          existeIsTrue = true;
+                                        }
+                                      }
+
+                                      // novo valor é cadastrado se 'cadastra' for verdadeiro
+                                      if (cadastra) {
                                         cadastroOs.add({
                                           'os': '1234',
                                           'matricula': matriculaInput.text,
                                           'operador': matriculaInput.text,
                                           'turno': '1',
                                         });
-                                        print('cadastroOs');
                                         print(cadastroOs);
-                                      } else {
-                                        print('existe');
-                                        print(cadastroOs.length);
-                                        existeIsTrue = true;
                                       }
                                     }
                                   }
