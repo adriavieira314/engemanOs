@@ -116,7 +116,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                           ? osInput.text = ''
                           : index == 11 //se for tecla Entrar
                               ? setState(() {
-                                  bool cadastra = false;
+                                  bool osExiste = false;
+                                  bool matriculaNaoExiste = false;
                                   // o botao 'iniciar' some porem a função
                                   // continua funcionando, esse IF previne isso de acontecer
                                   if (!existeIsTrue) {
@@ -127,21 +128,29 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                       for (var i = 0;
                                           i < cadastroOs.length;
                                           i++) {
-                                        if ((cadastroOs[i]['os'] == osString &&
-                                                cadastroOs[i]['matricula'] ==
-                                                    matriculaString) ==
+                                        if (cadastroOs[i]['os'] == osString) {
+                                          osExiste = true;
+                                          print('osExiste');
+                                        } else {
+                                          print('os nao existe');
+                                        }
+
+                                        if ((cadastroOs[i]['matricula'] ==
+                                                matriculaString) ==
                                             false) {
-                                          cadastra = true;
+                                          matriculaNaoExiste = false;
+                                          print('matriculaNaoExiste');
                                         }
                                       }
 
                                       // novo valor é cadastrado se 'cadastra' for verdadeiro
-                                      if (cadastra) {
+                                      if (osExiste &&
+                                          matriculaNaoExiste == false) {
                                         cadastroOs.add({
                                           'os': '1234',
-                                          'matricula':
+                                          'matricula': matriculaInput.text,
+                                          'operador':
                                               'Teste ${cadastroOs.length + 1}',
-                                          'operador': matriculaInput.text,
                                           'turno': '1',
                                         });
                                         print(cadastroOs);
@@ -159,7 +168,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                   // o botao 'iniciar' some porem a função
                                   // continua funcionando, esse IF previne isso de acontecer
                                   if (!existeIsTrue) {
-                                    bool cadastra = false;
+                                    bool osExiste = false;
+                                    bool matriculaNaoExiste = false;
                                     print('matriculaInput');
                                     if (osInput.text.isNotEmpty &&
                                         matriculaInput.text.isNotEmpty) {
@@ -167,16 +177,24 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                       for (var i = 0;
                                           i < cadastroOs.length;
                                           i++) {
-                                        if ((cadastroOs[i]['os'] == osString &&
-                                                cadastroOs[i]['matricula'] ==
-                                                    matriculaString) ==
+                                        if (cadastroOs[i]['os'] == osString) {
+                                          osExiste = true;
+                                          print('osExiste');
+                                        } else {
+                                          print('os nao existe');
+                                        }
+
+                                        if ((cadastroOs[i]['matricula'] ==
+                                                matriculaString) ==
                                             false) {
-                                          cadastra = true;
+                                          matriculaNaoExiste = false;
+                                          print('matriculaNaoExiste');
                                         }
                                       }
 
                                       // novo valor é cadastrado se 'cadastra' for verdadeiro
-                                      if (cadastra) {
+                                      if (osExiste &&
+                                          matriculaNaoExiste == false) {
                                         cadastroOs.add({
                                           'os': '1234',
                                           'matricula': matriculaInput.text,
