@@ -277,7 +277,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                       ? null
                       : Card(
                           color: index == 9 //se for tecla Limpar
-                              ? Colors.redAccent
+                              ? const Color(0xFFcfe2ff)
                               : index == 11 //se for tecla Entrar
                                   ? Colors.greenAccent
                                   : Colors.white,
@@ -428,7 +428,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         style: TextStyle(fontSize: 25.0),
                       ),
                       style: ElevatedButton.styleFrom(
-                        primary: Colors.orangeAccent,
+                        primary: const Color(0xFFFFA54F),
                         padding: const EdgeInsets.symmetric(vertical: 15.0),
                         elevation: 5,
                         minimumSize: const Size(180, 0),
@@ -449,7 +449,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                               style: TextStyle(fontSize: 25.0),
                             ),
                             style: ElevatedButton.styleFrom(
-                              primary: Colors.orangeAccent,
+                              primary: Colors.redAccent,
                               padding:
                                   const EdgeInsets.symmetric(vertical: 15.0),
                               elevation: 5,
