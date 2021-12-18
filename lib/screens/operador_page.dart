@@ -12,7 +12,7 @@ class PaginaPrincipalPage extends StatefulWidget {
 class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
   final TextEditingController userInput = TextEditingController();
   final TextEditingController senhaInput = TextEditingController();
-  String os = '';
+  String osString = '';
 
   late int inputType = 1;
 
@@ -120,6 +120,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                               : senhaInput.text += teclado[index].label;
                     }
 
+                    // !condiçao para filtrar lista
                     // como nao estou colocando os valores do input pelo teclado
                     // do dispositivo, tive que fazer de outro jeito
                     // eu passo para uma variavel 'os' o valor inserido no
@@ -129,14 +130,14 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                     if (userInput.text.isNotEmpty) {
                       for (var i = 0; i < cadastroOs.length; i++) {
                         setState(() {
-                          os = userInput.text;
+                          osString = userInput.text;
                         });
                       }
                     }
                     // condição para limpar a varivel 'os' e limpar a lista
                     if (index == 9) {
                       setState(() {
-                        os = '';
+                        osString = '';
                       });
                     }
                   },
@@ -229,11 +230,11 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
           child: ListView.builder(
             itemCount: cadastroOs.length,
             itemBuilder: (BuildContext context, int index) {
-              if (os.isEmpty) {
+              if (osString.isEmpty) {
                 return Container();
                 // verifico se no array cadastroOs possui o valor passado para
                 // a variavel 'os'
-              } else if (cadastroOs[index].os.contains(os)) {
+              } else if (cadastroOs[index].os.contains(osString)) {
                 return usuarioCard(index);
               }
               return Container();
