@@ -1,4 +1,4 @@
-import 'package:engemanos/models/cadastro_os.dart';
+// import 'package:engemanos/models/cadastro_os.dart';
 import 'package:engemanos/models/teclado.dart';
 import 'package:flutter/material.dart';
 
@@ -10,11 +10,21 @@ class PaginaPrincipalPage extends StatefulWidget {
 }
 
 class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
-  final TextEditingController userInput = TextEditingController();
-  final TextEditingController senhaInput = TextEditingController();
+  final TextEditingController osInput = TextEditingController();
+  final TextEditingController matriculaInput = TextEditingController();
   String osString = '';
   String matriculaString = '';
   late int inputType = 1;
+  bool existeIsTrue = false;
+
+  var cadastroOs = [
+    {
+      'os': '1234',
+      'matricula': '',
+      'operador': '',
+      'turno': '',
+    }
+  ];
 
   @override
   Widget build(BuildContext context) {
@@ -75,11 +85,11 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
           Column(
             children: [
               customTextField(
-                userInput,
+                osInput,
                 'OS',
               ),
               customTextField(
-                senhaInput,
+                matriculaInput,
                 'Matrícula',
               ),
             ],
@@ -104,20 +114,75 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                   onTap: () {
                     if (inputType == 1) {
                       index == 9 //se for tecla Limpar
-                          ? userInput.text = ''
+                          ? osInput.text = ''
                           : index == 11 //se for tecla Entrar
                               ? setState(() {
-                                  print('object');
+                                  print('osInput');
+                                  if (osInput.text.isNotEmpty &&
+                                      matriculaInput.text.isNotEmpty) {
+                                    for (var i = 0;
+                                        i < cadastroOs.length;
+                                        i++) {
+                                      if ((cadastroOs[i]['os'] == osString &&
+                                              cadastroOs[i]['matricula'] ==
+                                                  matriculaString) ==
+                                          false) {
+                                        //se matricula estiver vazia, nao existe nenhum funcionario
+                                        if (cadastroOs[i]['matricula'] == '') {
+                                          cadastroOs.removeAt(i);
+                                        }
+                                        cadastroOs.add({
+                                          'os': '1234',
+                                          'matricula': matriculaInput.text,
+                                          'operador': matriculaInput.text,
+                                          'turno': '1',
+                                        });
+                                        print(cadastroOs);
+                                      } else {
+                                        print('existe');
+                                      }
+                                    }
+                                  }
                                 })
-                              : userInput.text += teclado[index].label;
+                              : osInput.text += teclado[index]
+                                  .label; //se for tecla número, concatena
                     } else {
                       index == 9 //se for tecla Limpar
-                          ? senhaInput.text = ''
+                          ? matriculaInput.text = ''
                           : index == 11 //se for tecla Entrar
                               ? setState(() {
-                                  print('objectsdadasda');
+                                  print('matriculaInput');
+                                  if (osInput.text.isNotEmpty &&
+                                      matriculaInput.text.isNotEmpty) {
+                                    for (var i = 0;
+                                        i < cadastroOs.length;
+                                        i++) {
+                                      if ((cadastroOs[i]['os'] == osString &&
+                                              cadastroOs[i]['matricula'] ==
+                                                  matriculaString) ==
+                                          false) {
+                                        //se matricula estiver vazia, nao existe nenhum funcionario
+                                        if (cadastroOs[i]['matricula'] == '') {
+                                          cadastroOs.removeAt(i);
+                                        }
+                                        cadastroOs.add({
+                                          'os': '1234',
+                                          'matricula': matriculaInput.text,
+                                          'operador': matriculaInput.text,
+                                          'turno': '1',
+                                        });
+                                        print('cadastroOs');
+                                        print(cadastroOs);
+                                      } else {
+                                        print('existe');
+                                        print(cadastroOs.length);
+                                        existeIsTrue = true;
+                                      }
+                                    }
+                                  }
                                 })
-                              : senhaInput.text += teclado[index].label;
+                              : matriculaInput.text += teclado[index]
+                                  .label; //se for tecla número, concatena
                     }
 
                     // !condiçao para filtrar lista
@@ -129,55 +194,81 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                     // la embaixo
                     if (inputType == 1) {
                       if (osInput.text.isNotEmpty) {
-                        for (var i = 0; i < cadastroOs.length; i++) {
-                          setState(() {
-                            osString = osInput.text;
-                          });
+                        setState(() {
+                          osString = osInput.text;
+                        });
+
+                        //condição para sumir o botao de iniciar se ja existir usuario
+                        if (matriculaInput.text.isNotEmpty) {
+                          for (var i = 0; i < cadastroOs.length; i++) {
+                            if (cadastroOs[i]['os'] == osString &&
+                                cadastroOs[i]['matricula'] == matriculaString) {
+                              setState(() {
+                                existeIsTrue = true;
+                                print('naoExiste');
+                                print(existeIsTrue);
+                              });
+                            }
+                          }
                         }
                       }
                       // condição para limpar a varivel 'os' e limpar a lista
                       if (index == 9) {
                         setState(() {
                           osString = '';
+                          existeIsTrue = false;
                         });
                       }
                       //input Type == 2
                     } else {
                       if (matriculaInput.text.isNotEmpty) {
+                        setState(() {
+                          matriculaString = matriculaInput.text;
+                        });
+
+                        //condição para sumir o botao de iniciar se ja existir usuario
                         for (var i = 0; i < cadastroOs.length; i++) {
-                          setState(() {
-                            matriculaString = matriculaInput.text;
-                          });
+                          if (cadastroOs[i]['os'] == osString &&
+                              cadastroOs[i]['matricula'] == matriculaString) {
+                            setState(() {
+                              existeIsTrue = true;
+                              print('naoExiste');
+                              print(existeIsTrue);
+                            });
+                          }
                         }
                       }
-                      // condição para limpar a varivel 'os' e limpar a lista
+                      // condição para limpar a varivel 'matriculaString' e limpar a lista
                       if (index == 9) {
                         setState(() {
                           matriculaString = '';
+                          existeIsTrue = false;
                         });
                       }
                     }
                   },
-                  child: Card(
-                    color: index == 9 //se for tecla Limpar
-                        ? Colors.redAccent
-                        : index == 11 //se for tecla Entrar
-                            ? Colors.greenAccent
-                            : Colors.white,
-                    shape: RoundedRectangleBorder(
-                      side:
-                          const BorderSide(color: Colors.blueGrey, width: 2.0),
-                      borderRadius: BorderRadius.circular(4.0),
-                    ),
-                    child: Center(
-                      child: Text(
-                        teclado[index].label,
-                        style: const TextStyle(
-                          fontSize: 40.0,
+                  child: (existeIsTrue && index == 11)
+                      ? null
+                      : Card(
+                          color: index == 9 //se for tecla Limpar
+                              ? Colors.redAccent
+                              : index == 11 //se for tecla Entrar
+                                  ? Colors.greenAccent
+                                  : Colors.white,
+                          shape: RoundedRectangleBorder(
+                            side: const BorderSide(
+                                color: Colors.blueGrey, width: 2.0),
+                            borderRadius: BorderRadius.circular(4.0),
+                          ),
+                          child: Center(
+                            child: Text(
+                              teclado[index].label,
+                              style: const TextStyle(
+                                fontSize: 40.0,
+                              ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ),
-                  ),
                 );
               },
             ),
@@ -247,7 +338,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
           child: ListView.builder(
             itemCount: cadastroOs.length,
             itemBuilder: (BuildContext context, int index) {
-              if (osString.isEmpty) {
+              if (osString.isEmpty || matriculaString.isEmpty) {
                 return Container();
                 // verifico se no array cadastroOs possui o valor passado para
                 // a variavel 'os'
@@ -281,11 +372,15 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      'Nome: ${cadastroOs[index].operador}',
+                      'OS: ${cadastroOs[index]['os']}',
                       style: const TextStyle(fontSize: 25.0),
                     ),
                     Text(
-                      'Turno: ${cadastroOs[index].turno} Turno',
+                      'Nome: ${cadastroOs[index]['operador']}',
+                      style: const TextStyle(fontSize: 25.0),
+                    ),
+                    Text(
+                      'Turno: ${cadastroOs[index]['turno']} Turno',
                       style: const TextStyle(fontSize: 25.0),
                     ),
                   ],
@@ -310,4 +405,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
       ),
     );
   }
+}
+
+void update(String os, String matricula) {
+  print('insere function');
 }
