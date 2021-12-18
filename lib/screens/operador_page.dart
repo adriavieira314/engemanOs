@@ -126,10 +126,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                               cadastroOs[i]['matricula'] ==
                                                   matriculaString) ==
                                           false) {
-                                        //se matricula estiver vazia, nao existe nenhum funcionario
-                                        if (cadastroOs[i]['matricula'] == '') {
-                                          cadastroOs.removeAt(i);
-                                        }
                                         cadastroOs.add({
                                           'os': '1234',
                                           'matricula': matriculaInput.text,
@@ -160,10 +156,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                               cadastroOs[i]['matricula'] ==
                                                   matriculaString) ==
                                           false) {
-                                        //se matricula estiver vazia, nao existe nenhum funcionario
-                                        if (cadastroOs[i]['matricula'] == '') {
-                                          cadastroOs.removeAt(i);
-                                        }
                                         cadastroOs.add({
                                           'os': '1234',
                                           'matricula': matriculaInput.text,
@@ -384,18 +376,39 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                     ),
                   ],
                 ),
-                trailing: ElevatedButton(
-                  onPressed: () {},
-                  child: Text(
-                    cadastroOs.length == 1 ? 'Finalizar' : 'Pausar',
-                    style: const TextStyle(fontSize: 25.0),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    primary: Colors.orangeAccent,
-                    padding: const EdgeInsets.symmetric(vertical: 15.0),
-                    elevation: 5,
-                    minimumSize: const Size(180, 0),
-                  ),
+                trailing: Wrap(
+                  spacing: 30,
+                  children: [
+                    ElevatedButton(
+                      onPressed: () {},
+                      child: const Text(
+                        'Pausar',
+                        style: TextStyle(fontSize: 25.0),
+                      ),
+                      style: ElevatedButton.styleFrom(
+                        primary: Colors.orangeAccent,
+                        padding: const EdgeInsets.symmetric(vertical: 15.0),
+                        elevation: 5,
+                        minimumSize: const Size(180, 0),
+                      ),
+                    ),
+                    cadastroOs.length == 2
+                        ? ElevatedButton(
+                            onPressed: () {},
+                            child: const Text(
+                              'Finalizar',
+                              style: TextStyle(fontSize: 25.0),
+                            ),
+                            style: ElevatedButton.styleFrom(
+                              primary: Colors.orangeAccent,
+                              padding:
+                                  const EdgeInsets.symmetric(vertical: 15.0),
+                              elevation: 5,
+                              minimumSize: const Size(180, 0),
+                            ),
+                          )
+                        : const Icon(Icons.add, color: Colors.white),
+                  ],
                 ),
               ),
             ],
