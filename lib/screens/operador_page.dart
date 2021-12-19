@@ -39,17 +39,19 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
         title: const Text('ENGEMAN - OS'),
       ),
       body: MediaQuery.of(context).orientation == Orientation.portrait
-          ? Column(
-              children: [
-                listaUsuario(),
-                loginUsuario(
-                  context,
-                  itemWidthPortrait,
-                  itemHeightPortrait,
-                  itemWidth,
-                  itemHeight,
-                ),
-              ],
+          ? SingleChildScrollView(
+              child: Column(
+                children: [
+                  listaUsuario(),
+                  loginUsuario(
+                    context,
+                    itemWidthPortrait,
+                    itemHeightPortrait,
+                    itemWidth,
+                    itemHeight,
+                  ),
+                ],
+              ),
             )
           : Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -295,8 +297,12 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                             child: Center(
                               child: Text(
                                 teclado[index].label,
-                                style: const TextStyle(
-                                  fontSize: 80.0,
+                                style: TextStyle(
+                                  fontSize:
+                                      MediaQuery.of(context).orientation ==
+                                              Orientation.portrait
+                                          ? 80.0
+                                          : 40.0,
                                 ),
                               ),
                             ),
@@ -313,9 +319,11 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
 
   Padding customTextField(TextEditingController textController, String label) {
     return Padding(
-      padding: const EdgeInsets.only(bottom: 10.0, left: 0.0, top: 10.0),
+      padding: const EdgeInsets.all(15.0),
       child: SizedBox(
-        width: 500,
+        width: MediaQuery.of(context).orientation == Orientation.portrait
+            ? MediaQuery.of(context).size.width
+            : 500,
         child: TextFormField(
           onTap: () {
             setState(() {
@@ -325,8 +333,12 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
           autofocus: true,
           readOnly: true,
           controller: textController,
-          style: const TextStyle(fontSize: 24.0),
+          style: MediaQuery.of(context).orientation == Orientation.portrait
+              ? const TextStyle(fontSize: 40.0)
+              : const TextStyle(fontSize: 28.0),
           decoration: InputDecoration(
+            contentPadding:
+                const EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
             // cor da borda
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
@@ -361,7 +373,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
         ? Padding(
             padding: const EdgeInsets.all(15.0),
             child: Container(
-              height: 130.0,
+              height: 150.0,
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(5),
                 color: Colors.white,
@@ -419,85 +431,96 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
   Padding usuarioCard(int index) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15.0),
-      child: SizedBox(
-        height: 130.0,
-        child: Card(
-          shape: RoundedRectangleBorder(
-            side: const BorderSide(color: Colors.blueGrey, width: 1.0),
-            borderRadius: BorderRadius.circular(4.0),
-          ),
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              ListTile(
-                title: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text(
-                      'OS: ${cadastroOs[index]['os']}',
-                      style: const TextStyle(fontSize: 25.0),
-                    ),
-                    Text(
-                      'Nome: ${cadastroOs[index]['operador']}',
-                      style: const TextStyle(fontSize: 25.0),
-                    ),
-                    Text(
-                      'Turno: ${cadastroOs[index]['turno']} Turno',
-                      style: const TextStyle(fontSize: 25.0),
-                    ),
-                  ],
-                ),
-                trailing: Wrap(
-                  spacing: 30,
-                  children: [
-                    ElevatedButton(
-                      onPressed: () {
-                        setState(() {
-                          cadastroOs.removeAt(index);
-                          osInput.text = '';
-                          matriculaInput.text = '';
-                          existeIsTrue = false;
-                        });
-                      },
-                      child: const Text(
-                        'Pausar',
-                        style: TextStyle(fontSize: 25.0),
-                      ),
-                      style: ElevatedButton.styleFrom(
-                        primary: const Color(0xFFFFA54F),
-                        padding: const EdgeInsets.symmetric(vertical: 15.0),
-                        elevation: 5,
-                        minimumSize: const Size(180, 0),
-                      ),
-                    ),
-                    cadastroOs.length == 2
-                        ? ElevatedButton(
-                            onPressed: () {
-                              setState(() {
-                                cadastroOs.removeAt(index);
-                                osInput.text = '';
-                                matriculaInput.text = '';
-                                existeIsTrue = false;
-                              });
-                            },
-                            child: const Text(
-                              'Finalizar',
-                              style: TextStyle(fontSize: 25.0),
-                            ),
-                            style: ElevatedButton.styleFrom(
-                              primary: Colors.redAccent,
-                              padding:
-                                  const EdgeInsets.symmetric(vertical: 15.0),
-                              elevation: 5,
-                              minimumSize: const Size(180, 0),
-                            ),
-                          )
-                        : const Icon(Icons.add, color: Colors.white),
-                  ],
-                ),
+      child: MediaQuery.of(context).orientation == Orientation.portrait
+          ? itemUsuario(index, 150.0, 35.0, 25.0, 210.0)
+          : itemUsuario(index, 130.0, 25.0, 15.0, 180.0),
+    );
+  }
+
+  SizedBox itemUsuario(
+    int index,
+    double height,
+    double fontSize,
+    double vertical,
+    double size,
+  ) {
+    return SizedBox(
+      height: height,
+      child: Card(
+        shape: RoundedRectangleBorder(
+          side: const BorderSide(color: Colors.blueGrey, width: 1.0),
+          borderRadius: BorderRadius.circular(4.0),
+        ),
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            ListTile(
+              title: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(
+                    'OS: ${cadastroOs[index]['os']}',
+                    style: TextStyle(fontSize: fontSize),
+                  ),
+                  Text(
+                    'Nome: ${cadastroOs[index]['operador']}',
+                    style: TextStyle(fontSize: fontSize),
+                  ),
+                  Text(
+                    'Turno: ${cadastroOs[index]['turno']} Turno',
+                    style: TextStyle(fontSize: fontSize),
+                  ),
+                ],
               ),
-            ],
-          ),
+              trailing: Wrap(
+                spacing: 30,
+                children: [
+                  ElevatedButton(
+                    onPressed: () {
+                      setState(() {
+                        cadastroOs.removeAt(index);
+                        osInput.text = '';
+                        matriculaInput.text = '';
+                        existeIsTrue = false;
+                      });
+                    },
+                    child: const Text(
+                      'Pausar',
+                      style: TextStyle(fontSize: 35.0),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: const Color(0xFFFFA54F),
+                      padding: EdgeInsets.symmetric(vertical: vertical),
+                      elevation: 5,
+                      minimumSize: Size(size, 0),
+                    ),
+                  ),
+                  cadastroOs.length == 2
+                      ? ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              cadastroOs.removeAt(index);
+                              osInput.text = '';
+                              matriculaInput.text = '';
+                              existeIsTrue = false;
+                            });
+                          },
+                          child: const Text(
+                            'Finalizar',
+                            style: TextStyle(fontSize: 35.0),
+                          ),
+                          style: ElevatedButton.styleFrom(
+                            primary: Colors.redAccent,
+                            padding: EdgeInsets.symmetric(vertical: vertical),
+                            elevation: 5,
+                            minimumSize: Size(size, 0),
+                          ),
+                        )
+                      : const Icon(Icons.add, color: Colors.white),
+                ],
+              ),
+            ),
+          ],
         ),
       ),
     );
