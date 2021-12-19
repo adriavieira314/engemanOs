@@ -1,3 +1,5 @@
+import 'dart:ui';
+
 import 'package:engemanos/models/teclado.dart';
 import 'package:flutter/material.dart';
 
@@ -36,7 +38,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
 
     return Scaffold(
       appBar: AppBar(
-        title: const Text('ENGEMAN - OS'),
+        title: const Text('ENGEMAN - OS', style: TextStyle(fontSize: 30.0)),
+        toolbarHeight: 70,
       ),
       body: MediaQuery.of(context).orientation == Orientation.portrait
           ? SingleChildScrollView(
