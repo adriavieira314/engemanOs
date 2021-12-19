@@ -1,5 +1,6 @@
 import 'dart:ui';
 
+import 'package:easy_debounce/easy_debounce.dart';
 import 'package:engemanos/models/teclado.dart';
 import 'package:flutter/material.dart';
 
@@ -37,6 +38,17 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
   void resetaValores() {
     osExisteIsTrue = true;
     campoIsVazio = false;
+  }
+
+  void apagaDepoisDe10Segundos() {
+    EasyDebounce.debounce('debounceApaga', const Duration(milliseconds: 5000),
+        () {
+      print('Executing debounceApaga!');
+      setState(() {
+        osString = '';
+        matriculaString = '';
+      });
+    });
   }
 
   @override
@@ -196,6 +208,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                             'turno': '1',
                                           });
                                           limpaCampos();
+                                          apagaDepoisDe10Segundos();
                                         }
                                       } else {
                                         campoIsVazio = true;
@@ -248,6 +261,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                             'turno': '1',
                                           });
                                           limpaCampos();
+                                          apagaDepoisDe10Segundos();
                                         }
                                       } else {
                                         campoIsVazio = true;
@@ -269,8 +283,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         if (osInput.text.isNotEmpty) {
                           setState(() {
                             osString = osInput.text;
-                            print(osString);
-                            print(matriculaString);
                           });
 
                           //condição para sumir o botao de iniciar se ja existir usuario
@@ -302,8 +314,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         if (matriculaInput.text.isNotEmpty) {
                           setState(() {
                             matriculaString = matriculaInput.text;
-                            print(matriculaString);
-                            print(osString);
                           });
 
                           //condição para sumir o botao de iniciar se ja existir usuario
@@ -327,6 +337,14 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                             existeIsTrue = false;
                           });
                         }
+                      }
+
+                      //apagando os valores em geral
+                      if (index == 9) {
+                        matriculaString = '';
+                        matriculaInput.text = '';
+                        osString = '';
+                        osInput.text = '';
                       }
                     },
                     child: (existeIsTrue && index == 11)
@@ -528,6 +546,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                       setState(() {
                         cadastroOs.removeAt(index);
                         limpaCampos();
+                        matriculaString = '';
+                        osString = '';
                         existeIsTrue = false;
                       });
                     },
@@ -548,6 +568,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                             setState(() {
                               cadastroOs.removeAt(index);
                               limpaCampos();
+                              matriculaString = '';
+                              osString = '';
                               existeIsTrue = false;
                             });
                           },
