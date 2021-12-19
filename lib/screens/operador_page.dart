@@ -17,6 +17,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
   String matriculaString = '';
   late int inputType = 1;
   bool existeIsTrue = false;
+  bool osExisteIsTrue = true;
+  bool campoIsVazio = false;
 
   var cadastroOs = [
     {
@@ -88,15 +90,34 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               customTextField(
                 osInput,
                 'OS',
               ),
+              osExisteIsTrue == false
+                  ? const Padding(
+                      padding: EdgeInsets.only(left: 15.0, bottom: 8.0),
+                      child: Text(
+                        'Código da OS incorreto.',
+                        style: TextStyle(color: Colors.red, fontSize: 20.0),
+                      ),
+                    )
+                  : const Text(''),
               customTextField(
                 matriculaInput,
                 'Matrícula',
               ),
+              campoIsVazio
+                  ? const Padding(
+                      padding: EdgeInsets.only(left: 15.0, bottom: 5.0),
+                      child: Text(
+                        'Código da matrícula e da OS devem estar preenchidos.',
+                        style: TextStyle(color: Colors.red, fontSize: 20.0),
+                      ),
+                    )
+                  : const Text(''),
             ],
           ),
           Padding(
@@ -131,9 +152,9 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                     // o botao 'iniciar' some porem a função
                                     // continua funcionando, esse IF previne isso de acontecer
                                     if (!existeIsTrue) {
-                                      print('osInput');
                                       if (osInput.text.isNotEmpty &&
                                           matriculaInput.text.isNotEmpty) {
+                                        campoIsVazio = false;
                                         //iterando a array para verificar se existe o valor setado pelo usuario
                                         for (var i = 0;
                                             i < cadastroOs.length;
@@ -141,15 +162,16 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                           if (cadastroOs[i]['os'] == osString) {
                                             osExiste = true;
                                             print('osExiste');
+                                            osExisteIsTrue = true;
                                           } else {
                                             print('os nao existe');
+                                            osExisteIsTrue = false;
                                           }
 
                                           if ((cadastroOs[i]['matricula'] ==
                                                   matriculaString) ==
                                               false) {
                                             matriculaNaoExiste = false;
-                                            print('matriculaNaoExiste');
                                           }
                                         }
 
@@ -163,8 +185,9 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                                 'Teste ${cadastroOs.length + 1}',
                                             'turno': '1',
                                           });
-                                          print(cadastroOs);
                                         }
+                                      } else {
+                                        campoIsVazio = true;
                                       }
                                     }
                                   })
@@ -180,18 +203,19 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                     if (!existeIsTrue) {
                                       bool osExiste = false;
                                       bool matriculaNaoExiste = false;
-                                      print('matriculaInput');
                                       if (osInput.text.isNotEmpty &&
                                           matriculaInput.text.isNotEmpty) {
+                                        campoIsVazio = false;
                                         //iterando a array para verificar se existe o valor setado pelo usuario
                                         for (var i = 0;
                                             i < cadastroOs.length;
                                             i++) {
                                           if (cadastroOs[i]['os'] == osString) {
                                             osExiste = true;
-                                            print('osExiste');
+                                            osExisteIsTrue = true;
                                           } else {
                                             print('os nao existe');
+                                            osExisteIsTrue = false;
                                           }
 
                                           if ((cadastroOs[i]['matricula'] ==
@@ -212,8 +236,9 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                                 'Teste ${cadastroOs.length + 1}',
                                             'turno': '1',
                                           });
-                                          print(cadastroOs);
                                         }
+                                      } else {
+                                        campoIsVazio = true;
                                       }
                                     }
                                   })
@@ -242,7 +267,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                       matriculaString) {
                                 setState(() {
                                   existeIsTrue = true;
-                                  print('naoExiste');
                                   print(existeIsTrue);
                                 });
                               }
@@ -269,7 +293,6 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                 cadastroOs[i]['matricula'] == matriculaString) {
                               setState(() {
                                 existeIsTrue = true;
-                                print('naoExiste');
                                 print(existeIsTrue);
                               });
                             }
@@ -322,7 +345,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
 
   Padding customTextField(TextEditingController textController, String label) {
     return Padding(
-      padding: const EdgeInsets.all(15.0),
+      padding: const EdgeInsets.fromLTRB(15.0, 15.0, 15.0, 5.0),
       child: SizedBox(
         width: MediaQuery.of(context).orientation == Orientation.portrait
             ? MediaQuery.of(context).size.width
@@ -341,7 +364,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
               : const TextStyle(fontSize: 28.0),
           decoration: InputDecoration(
             contentPadding:
-                const EdgeInsets.symmetric(vertical: 30.0, horizontal: 30.0),
+                const EdgeInsets.symmetric(vertical: 20.0, horizontal: 30.0),
             // cor da borda
             enabledBorder: OutlineInputBorder(
               borderSide: const BorderSide(
