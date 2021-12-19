@@ -29,6 +29,16 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
     }
   ];
 
+  void limpaCampos() {
+    osInput.text = '';
+    matriculaInput.text = '';
+  }
+
+  void resetaValores() {
+    osExisteIsTrue = true;
+    campoIsVazio = false;
+  }
+
   @override
   Widget build(BuildContext context) {
     var size = MediaQuery.of(context).size;
@@ -185,6 +195,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                                 'Teste ${cadastroOs.length + 1}',
                                             'turno': '1',
                                           });
+                                          limpaCampos();
                                         }
                                       } else {
                                         campoIsVazio = true;
@@ -236,6 +247,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                                 'Teste ${cadastroOs.length + 1}',
                                             'turno': '1',
                                           });
+                                          limpaCampos();
                                         }
                                       } else {
                                         campoIsVazio = true;
@@ -257,6 +269,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         if (osInput.text.isNotEmpty) {
                           setState(() {
                             osString = osInput.text;
+                            print(osString);
+                            print(matriculaString);
                           });
 
                           //condição para sumir o botao de iniciar se ja existir usuario
@@ -267,6 +281,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                       matriculaString) {
                                 setState(() {
                                   existeIsTrue = true;
+                                  resetaValores();
+                                  limpaCampos();
                                   print(existeIsTrue);
                                 });
                               }
@@ -277,6 +293,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         if (index == 9) {
                           setState(() {
                             osString = '';
+                            osInput.text = '';
                             existeIsTrue = false;
                           });
                         }
@@ -285,6 +302,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         if (matriculaInput.text.isNotEmpty) {
                           setState(() {
                             matriculaString = matriculaInput.text;
+                            print(matriculaString);
+                            print(osString);
                           });
 
                           //condição para sumir o botao de iniciar se ja existir usuario
@@ -293,6 +312,8 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                 cadastroOs[i]['matricula'] == matriculaString) {
                               setState(() {
                                 existeIsTrue = true;
+                                resetaValores();
+                                limpaCampos();
                                 print(existeIsTrue);
                               });
                             }
@@ -302,6 +323,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                         if (index == 9) {
                           setState(() {
                             matriculaString = '';
+                            matriculaInput.text = '';
                             existeIsTrue = false;
                           });
                         }
@@ -505,8 +527,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                     onPressed: () {
                       setState(() {
                         cadastroOs.removeAt(index);
-                        osInput.text = '';
-                        matriculaInput.text = '';
+                        limpaCampos();
                         existeIsTrue = false;
                       });
                     },
@@ -526,8 +547,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                           onPressed: () {
                             setState(() {
                               cadastroOs.removeAt(index);
-                              osInput.text = '';
-                              matriculaInput.text = '';
+                              limpaCampos();
                               existeIsTrue = false;
                             });
                           },
