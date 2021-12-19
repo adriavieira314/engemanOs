@@ -304,7 +304,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
                                   fontSize:
                                       MediaQuery.of(context).orientation ==
                                               Orientation.portrait
-                                          ? 80.0
+                                          ? 70.0
                                           : 40.0,
                                 ),
                               ),
