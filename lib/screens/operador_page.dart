@@ -31,7 +31,7 @@ class _PaginaPrincipalPageState extends State<PaginaPrincipalPage> {
     /*24 is for notification bar on Android*/
     final double itemHeight = (size.height - kToolbarHeight - 24) / 1.6;
     final double itemWidth = size.width / 2;
-    final double itemHeightPortrait = (size.height - kToolbarHeight - 24) / 3;
+    final double itemHeightPortrait = (size.height - kToolbarHeight - 24) / 4.5;
     final double itemWidthPortrait = size.width / 2;
 
     return Scaffold(
